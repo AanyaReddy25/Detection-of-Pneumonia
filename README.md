@@ -15,6 +15,7 @@ This project implements a deep learning-based approach to detect **Pneumonia** f
 - Training callbacks: EarlyStopping, ReduceLROnPlateau, ModelCheckpoint, TensorBoard
 - Evaluation with Precision, Recall, F1-Score, and Confusion Matrix
 - Visual comparison of predicted vs. actual labels on test images
+- Modular codebase with separate files for model, training, utilities, and visualization
 
 ---
 
@@ -73,7 +74,7 @@ Input (Chest X-Ray Images)
 | Validation         | 320 images                                   |
 | Testing            | 320 images                                   |
 
-> **Note:** The dataset is not included in this repository due to its size. Download it from the Kaggle link above and place it under `code/data/input/` with `train/`, `val/`, and `test/` subdirectories.
+> **Note:** The dataset is not included in this repository due to its size. Use the provided download script or manually download from Kaggle.
 
 ---
 
@@ -118,6 +119,20 @@ Input (Chest X-Ray Images)
    ```
 
 4. **Download the dataset**
+
+   **Option A** -- Using the download script (requires [Kaggle API key](https://www.kaggle.com/settings)):
+   ```bash
+   # Linux/Mac
+   pip install kaggle
+   chmod +x download_dataset.sh
+   ./download_dataset.sh
+
+   # Windows (PowerShell)
+   pip install kaggle
+   .\download_dataset.ps1
+   ```
+
+   **Option B** -- Manual download:
    - Download from [Kaggle](https://www.kaggle.com/paultimothymooney/chest-xray-pneumonia)
    - Extract and place the `train/`, `val/`, `test/` folders inside `code/data/input/`
 
@@ -125,16 +140,18 @@ Input (Chest X-Ray Images)
 
 ## How to Run
 
-1. Open the Jupyter Notebook:
-   ```bash
-   jupyter notebook "code/Detection of Pneumonia from Chest X-Ray Images 1.0.0.3.ipynb"
-   ```
-2. Run cells sequentially from top to bottom.
-3. The notebook will:
-   - Load and preprocess chest X-ray images
-   - Build and train the CNN model (or load a saved model)
-   - Evaluate on the test set and display metrics
-   - Visualize predictions with true vs. predicted labels
+### Option 1: Jupyter Notebook (Interactive)
+```bash
+jupyter notebook "code/Detection of Pneumonia from Chest X-Ray Images 1.0.0.3.ipynb"
+```
+Run cells sequentially from top to bottom.
+
+### Option 2: Python Script (CLI)
+```bash
+cd code
+python train.py
+```
+This will train the model, evaluate on the test set, and print metrics.
 
 ---
 
@@ -143,20 +160,26 @@ Input (Chest X-Ray Images)
 ```
 Detection-of-Pneumonia/
 |
-+-- README.md                  # Project documentation
-+-- LICENSE                    # MIT License
-+-- requirements.txt           # Python dependencies
-+-- .gitignore                 # Git ignore rules
++-- README.md                    # Project documentation
++-- LICENSE                      # MIT License
++-- requirements.txt             # Pinned Python dependencies
++-- .gitignore                   # Git ignore rules
++-- download_dataset.sh          # Dataset download script (Linux/Mac)
++-- download_dataset.ps1         # Dataset download script (Windows)
 |
 +-- code/
 |   +-- Detection of Pneumonia from Chest X-Ray Images 1.0.0.3.ipynb
-|   |                          # Main notebook (latest version)
-|   +-- obsolete/              # Earlier notebook versions (for reference)
+|   |                            # Main notebook (interactive workflow)
+|   +-- model.py                 # CNN and InceptionV3 model definitions
+|   +-- train.py                 # Training pipeline (CLI entry point)
+|   +-- utils.py                 # File/directory utilities, helpers
+|   +-- visualization.py         # Plotting and visualization functions
+|   +-- obsolete/                # Earlier notebook versions (for reference)
 |
 +-- demo/
-    +-- images/                # Result images
-    +-- report/                # Confusion matrix and classification reports
-    +-- sample/                # Sample prediction outputs
+    +-- images/                  # Result images
+    +-- report/                  # Confusion matrix and classification reports
+    +-- sample/                  # Sample prediction outputs
 ```
 
 ---
