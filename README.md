@@ -2,13 +2,13 @@
 
 ## Description
 
-This project implements a deep learning-based approach to detect **Pneumonia** from chest X-ray images using a **Custom Convolutional Neural Network (CNN)** and **Transfer Learning with InceptionV3**. The model is trained on 5,856 labeled chest X-ray images (Normal vs. Pneumonia) from the publicly available Kaggle dataset. The custom CNN achieved a testing accuracy of **89.53%** with a recall of **95.48%** for pneumonia detection, making it effective for assisting in early screening of pneumonia cases.
+This project implements a deep learning-based approach to detect **Pneumonia** from chest X-ray images using a **Custom Convolutional Neural Network (CNN)** and **Transfer Learning with InceptionV3**. The model is trained on 5,856 labeled chest X-ray images (Normal vs. Pneumonia) from the publicly available Kaggle dataset. The custom CNN achieved a testing accuracy of **89.53%** with a recall of **95.48%** for pneumonia detection, making it suitable for assisting in early screening of pneumonia cases.
 
 ---
 
 ## Features
 
-- Custom deep CNN architecture built from scratch using Keras
+- Custom deep CNN architecture (5 convolutional blocks) built from scratch using Keras
 - Transfer learning support using **InceptionV3** (pretrained on ImageNet)
 - Image preprocessing with data augmentation (shear, zoom, horizontal flip)
 - Class weight balancing to handle dataset imbalance
@@ -37,25 +37,25 @@ This project implements a deep learning-based approach to detect **Pneumonia** f
 
 ```
 Input (Chest X-Ray Images)
-        |
-        v
+        │
+        ▼
   Image Preprocessing
-  (Resize to 150x150, Rescale, Augmentation)
-        |
-        v
+  (Resize to 150×150, Rescale, Augmentation)
+        │
+        ▼
   Model Training
-  +-----------------------------+
-  | Option A: Custom CNN        |
-  |   5 Conv blocks + Dense     |
-  | Option B: InceptionV3       |
-  |   Fine-tuned top layers     |
-  +-----------------------------+
-        |
-        v
+  ┌─────────────────────────────┐
+  │ Option A: Custom CNN        │
+  │   5 Conv blocks + Dense     │
+  │ Option B: InceptionV3       │
+  │   Fine-tuned top layers     │
+  └─────────────────────────────┘
+        │
+        ▼
   Evaluation & Metrics
   (Accuracy, Loss, Precision, Recall, F1, Confusion Matrix)
-        |
-        v
+        │
+        ▼
   Prediction Visualization
   (True vs. Predicted labels on test images)
 ```
@@ -102,7 +102,7 @@ Input (Chest X-Ray Images)
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/Vignan2659/Detection-of-Pneumonia.git
+   git clone https://github.com/AanyaReddy25/Detection-of-Pneumonia.git
    cd Detection-of-Pneumonia
    ```
 
@@ -120,7 +120,7 @@ Input (Chest X-Ray Images)
 
 4. **Download the dataset**
 
-   **Option A** -- Using the download script (requires [Kaggle API key](https://www.kaggle.com/settings)):
+   **Option A** — Using the download script (requires [Kaggle API key](https://www.kaggle.com/settings)):
    ```bash
    # Linux/Mac
    pip install kaggle
@@ -132,7 +132,7 @@ Input (Chest X-Ray Images)
    .\download_dataset.ps1
    ```
 
-   **Option B** -- Manual download:
+   **Option B** — Manual download:
    - Download from [Kaggle](https://www.kaggle.com/paultimothymooney/chest-xray-pneumonia)
    - Extract and place the `train/`, `val/`, `test/` folders inside `code/data/input/`
 
@@ -159,35 +159,44 @@ This will train the model, evaluate on the test set, and print metrics.
 
 ```
 Detection-of-Pneumonia/
-|
-+-- README.md                    # Project documentation
-+-- LICENSE                      # MIT License
-+-- requirements.txt             # Pinned Python dependencies
-+-- .gitignore                   # Git ignore rules
-+-- download_dataset.sh          # Dataset download script (Linux/Mac)
-+-- download_dataset.ps1         # Dataset download script (Windows)
-|
-+-- code/
-|   +-- Detection of Pneumonia from Chest X-Ray Images 1.0.0.3.ipynb
-|   |                            # Main notebook (interactive workflow)
-|   +-- model.py                 # CNN and InceptionV3 model definitions
-|   +-- train.py                 # Training pipeline (CLI entry point)
-|   +-- utils.py                 # File/directory utilities, helpers
-|   +-- visualization.py         # Plotting and visualization functions
-|   +-- obsolete/                # Earlier notebook versions (for reference)
-|
-+-- demo/
-    +-- images/                  # Result images
-    +-- report/                  # Confusion matrix and classification reports
-    +-- sample/                  # Sample prediction outputs
+│
+├── README.md                    # Project documentation
+├── LICENSE                      # MIT License
+├── requirements.txt             # Pinned Python dependencies
+├── .gitignore                   # Git ignore rules
+├── download_dataset.sh          # Dataset download script (Linux/Mac)
+├── download_dataset.ps1         # Dataset download script (Windows)
+│
+├── code/
+│   ├── Detection of Pneumonia from Chest X-Ray Images 1.0.0.3.ipynb
+│   │                            # Main notebook (interactive workflow)
+│   ├── model.py                 # CNN and InceptionV3 model definitions
+│   ├── train.py                 # Training pipeline (CLI entry point)
+│   ├── utils.py                 # File/directory utilities, helpers
+│   ├── visualization.py         # Plotting and visualization functions
+│   └── obsolete/                # Earlier notebook versions (for reference)
+│
+└── demo/
+    ├── images/                  # Result images
+    ├── report/                  # Confusion matrix and classification reports
+    └── sample/                  # Sample prediction outputs
 ```
+
+---
+
+## Suggestions for Improvement
+
+- **Reproducibility:** Pin exact library versions in `requirements.txt` and add a `random_seed` configuration for deterministic training.
+- **Code Quality:** Migrate from deprecated `fit_generator` / `predict_generator` to `model.fit()` / `model.predict()` (Keras 2.4+).
+- **Model Tracking:** Integrate MLflow or Weights & Biases for experiment tracking.
+- **Deployment:** Add a simple Flask/Streamlit app for real-time inference demos.
 
 ---
 
 ## Contributors
 
-- **Vignan Karthikeya** -- [GitHub Profile](https://github.com/Vignan2659)
-- **Contributor 2** -- Project Collaborator
+- **Aanya Reddy** — [GitHub Profile](https://github.com/AanyaReddy25)
+- **Contributor 2** — Project Collaborator
 
 ---
 
@@ -200,4 +209,4 @@ This project is licensed under the [MIT License](LICENSE).
 ## References
 
 - Kermany, D. S., et al. *"Identifying Medical Diagnoses and Treatable Diseases by Image-Based Deep Learning."* Cell, 2018. [Link](https://www.cell.com/cell/fulltext/S0092-8674(18)30154-5)
-- Dataset: [Chest X-Ray Images (Pneumonia) -- Kaggle](https://www.kaggle.com/paultimothymooney/chest-xray-pneumonia)
+- Dataset: [Chest X-Ray Images (Pneumonia) — Kaggle](https://www.kaggle.com/paultimothymooney/chest-xray-pneumonia)
